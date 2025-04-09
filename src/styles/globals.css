@@ -237,3 +237,8 @@ input[type='number'] {
 .gjs-pn-panel.gjs-pn-commands.gjs-one-bg.gjs-two-color {
   padding: 0;
 }
+
+path {
+  stroke-dasharray: 6, 10;
+  stroke-linecap: round;
+}
