@@ -35,6 +35,7 @@
       "grapesjs-touch": ["/src/modules/grapesjs-touch"],
       "grapesjs-parser-postcss": ["/src/modules/grapesjs-parser-postcss"],
       "grapesjs-plugin-ckeditor": ["/src/modules/grapesjs-plugin-ckeditor"],
+            "grapesjs-templates": ["/src/modules/grapesjs-templates"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
