@@ -1,10 +1,11 @@
 'use client'
 
-import {useEffect} from 'react'
+import { gsap } from 'gsap'
+import { useEffect, useRef } from 'react'
+
+import { cn } from '@/lib/utils'
+
 import './loading-step.css'
-import {gsap} from 'gsap'
-import {useRef} from 'react'
-import {cn} from '@/lib/utils'
 
 export default function LoadingStep({
   className,
@@ -16,7 +17,7 @@ export default function LoadingStep({
   const boxRef = useRef(null)
 
   useEffect(() => {
-    const tl = gsap.timeline({repeat: -1, repeatDelay: 0.75})
+    const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.75 })
 
     tl.from('.box .cell', {
       scale: 0,
@@ -34,7 +35,7 @@ export default function LoadingStep({
         scale: 0,
         xPercent: -900,
         duration: 0.5,
-        stagger: {amount: 0.75, from: 'start'},
+        stagger: { amount: 0.75, from: 'start' },
       },
       '+=0.5',
     )
@@ -48,10 +49,10 @@ export default function LoadingStep({
       ref={boxRef}
       className={cn('box flex items-center w-full', className)}
     >
-      {Array.from({length}).map((_, index) => (
+      {Array.from({ length }).map((_, index) => (
         <div
           key={index}
-          className='cell flex-1 h-[1rem] bg-Fill-Primary'
+          className='cell flex-1 h-[1rem] bg-blue-300'
         ></div>
       ))}
     </div>

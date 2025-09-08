@@ -18,15 +18,9 @@ class CF7Request {
     return `${baseUrl}/${id}/feedback`
   }
 
-  public async send({
-    id,
-    unitTag,
-  }: {
-    id: string
-    unitTag: string
-  }): Promise<any> {
+  public async send({ id, unitTag }: { id: string; unitTag: string }): Promise<any> {
     if (!id || !unitTag) {
-      throw new Error('Both \'id\' and \'unitTag\' are required.')
+      throw new Error("Both 'id' and 'unitTag' are required.")
     }
 
     try {

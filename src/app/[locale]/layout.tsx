@@ -1,15 +1,16 @@
-import type {Metadata} from 'next'
-import {Geist, Geist_Mono} from 'next/font/google'
+import type { Metadata } from 'next'
+import { Geist, Geist_Mono } from 'next/font/google'
 import '@/styles/globals.css'
-import {NextIntlClientProvider, hasLocale} from 'next-intl'
-import {notFound} from 'next/navigation'
-import {routing} from '@/i18n/routing'
-import {setRequestLocale} from 'next-intl/server'
+import { notFound } from 'next/navigation'
+import { SessionProvider } from 'next-auth/react'
+import { NextIntlClientProvider, hasLocale } from 'next-intl'
+import { setRequestLocale } from 'next-intl/server'
+import { ViewTransitions } from 'next-view-transitions'
 import NextTopLoader from 'nextjs-toploader'
-import {Toaster} from '@/components/ui/sonner'
-import GsapProvider from '@/provider/GsapProvider'
-// import { unstable_ViewTransition as ViewTransition } from 'react'
-import {ViewTransitions} from 'next-view-transitions'
+
+import { Toaster } from '@/components/ui/sonner'
+import { routing } from '@/i18n/routing'
+import LenisProvider from '@/provider/LenisProvider'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -22,7 +23,7 @@ const geistMono = Geist_Mono({
 })
 
 export function generateStaticParams() {
-  return routing.locales.map((locale) => ({locale}))
+  return routing.locales.map((locale) => ({ locale }))
 }
 
 export const metadata: Metadata = {
@@ -41,10 +42,10 @@ export default async function RootLayout({
   params,
 }: Readonly<{
   children: React.ReactNode
-  params: Promise<{locale: string}>
+  params: Promise<{ locale: string }>
 }>) {
   // Ensure that the incoming `locale` is valid
-  const {locale} = await params
+  const { locale } = await params
   if (!hasLocale(routing.locales, locale)) {
     notFound()
   }
@@ -55,11 +56,11 @@ export default async function RootLayout({
   return (
     <ViewTransitions>
       <html lang={locale}>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           <NextIntlClientProvider>
-            <GsapProvider>{children}</GsapProvider>
+            <LenisProvider>
+              <SessionProvider>{children}</SessionProvider>
+            </LenisProvider>
           </NextIntlClientProvider>
           <NextTopLoader
             color='linear-gradient(90deg, #89f7fe 0%, #66a6ff 100%)'
@@ -71,7 +72,7 @@ export default async function RootLayout({
             easing='ease'
             speed={200}
             shadow='0 0 10px #2299DD,0 0 5px #2299DD'
-            template='<div class="bar" role="bar"><div class="peg"></div></div> 
+            template='<div class="bar" role="bar"><div class="peg"></div></div>
     <div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
             zIndex={1600}
             showAtBottom={false}

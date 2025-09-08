@@ -1,12 +1,13 @@
 'use client'
-import {cn} from '@/lib/utils'
-import {FC} from 'react'
+import { FC } from 'react'
+
+import { cn } from '@/lib/utils'
 
 interface LoadingCircleSpinProps {
   className?: string
 }
 
-const LoadingCircleSpin: FC<LoadingCircleSpinProps> = ({className}) => {
+const LoadingCircleSpin: FC<LoadingCircleSpinProps> = ({ className }) => {
   return (
     <svg
       className={cn('animate-spin h-[2rem] w-[2rem] text-black', className)}

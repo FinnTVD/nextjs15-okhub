@@ -1,4 +1,4 @@
-import { ENV_DOMAIN } from "@/config-global.env";
+import ENV from '@/config-global.env'
 
 export default function robots() {
   return {
@@ -6,6 +6,6 @@ export default function robots() {
       userAgent: '*',
       allow: '/',
     },
-    sitemap: `${ENV_DOMAIN}/sitemap.xml`,
+    sitemap: `${ENV.DOMAIN}/sitemap.xml`,
   }
 }

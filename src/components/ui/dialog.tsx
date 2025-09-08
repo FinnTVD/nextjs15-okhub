@@ -2,11 +2,11 @@
 
 import * as React from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
-import {XIcon} from 'lucide-react'
+import { XIcon } from 'lucide-react'
 
-import {cn} from '@/lib/utils'
+import { cn } from '@/lib/utils'
 
-function Dialog({...props}: React.ComponentProps<typeof DialogPrimitive.Root>) {
+function Dialog({ ...props }: React.ComponentProps<typeof DialogPrimitive.Root>) {
   return (
     <DialogPrimitive.Root
       data-slot='dialog'
@@ -15,9 +15,7 @@ function Dialog({...props}: React.ComponentProps<typeof DialogPrimitive.Root>) {
   )
 }
 
-function DialogTrigger({
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Trigger>) {
+function DialogTrigger({ ...props }: React.ComponentProps<typeof DialogPrimitive.Trigger>) {
   return (
     <DialogPrimitive.Trigger
       data-slot='dialog-trigger'
@@ -26,9 +24,7 @@ function DialogTrigger({
   )
 }
 
-function DialogPortal({
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Portal>) {
+function DialogPortal({ ...props }: React.ComponentProps<typeof DialogPrimitive.Portal>) {
   return (
     <DialogPrimitive.Portal
       data-slot='dialog-portal'
@@ -37,9 +33,7 @@ function DialogPortal({
   )
 }
 
-function DialogClose({
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Close>) {
+function DialogClose({ ...props }: React.ComponentProps<typeof DialogPrimitive.Close>) {
   return (
     <DialogPrimitive.Close
       data-slot='dialog-close'
@@ -67,11 +61,14 @@ function DialogOverlay({
 function DialogContent({
   className,
   children,
+  classNameOverlay,
   ...props
-}: React.ComponentProps<typeof DialogPrimitive.Content>) {
+}: React.ComponentProps<typeof DialogPrimitive.Content> & {
+  classNameOverlay?: React.ComponentProps<typeof DialogPrimitive.Overlay>['className']
+}) {
   return (
     <DialogPortal data-slot='dialog-portal'>
-      <DialogOverlay />
+      <DialogOverlay className={classNameOverlay} />
       <DialogPrimitive.Content
         data-slot='dialog-content'
         className={cn(
@@ -90,7 +87,7 @@ function DialogContent({
   )
 }
 
-function DialogHeader({className, ...props}: React.ComponentProps<'div'>) {
+function DialogHeader({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot='dialog-header'
@@ -100,23 +97,17 @@ function DialogHeader({className, ...props}: React.ComponentProps<'div'>) {
   )
 }
 
-function DialogFooter({className, ...props}: React.ComponentProps<'div'>) {
+function DialogFooter({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot='dialog-footer'
-      className={cn(
-        'flex flex-col-reverse gap-2 sm:flex-row sm:justify-end',
-        className,
-      )}
+      className={cn('flex flex-col-reverse gap-2 sm:flex-row sm:justify-end', className)}
       {...props}
     />
   )
 }
 
-function DialogTitle({
-  className,
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Title>) {
+function DialogTitle({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Title>) {
   return (
     <DialogPrimitive.Title
       data-slot='dialog-title'

@@ -1,14 +1,9 @@
 'use client'
 
-import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-} from '@/components/ui/drawer'
-import {cn} from '@/lib/utils'
+import { FC } from 'react'
 
-import {FC} from 'react'
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from '@/components/ui/drawer'
+import { cn } from '@/lib/utils'
 
 interface DrawerProviderProps {
   children: React.ReactNode
@@ -17,12 +12,7 @@ interface DrawerProviderProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const DrawerProvider: FC<DrawerProviderProps> = ({
-  children,
-  className,
-  open,
-  setOpen,
-}) => {
+const DrawerProvider: FC<DrawerProviderProps> = ({ children, className, open, setOpen }) => {
   return (
     <Drawer
       onOpenChange={(open) => setOpen(open)}

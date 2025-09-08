@@ -1,8 +1,8 @@
-'use client';
+// NOTE: Nếu dùng đa ngôn ngữ thì cần dùng trong function thì mới dịch được
+
+'use client'
 import { z } from 'zod'
-const phoneRegex = new RegExp(
-  /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/,
-)
+const phoneRegex = new RegExp(/^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/)
 
 // Define the form schema with validation rules
 const contactSchema = z.object({

@@ -221,19 +221,3 @@ input[type='number']::-webkit-outer-spin-button {
 input[type='number'] {
   -moz-appearance: textfield;
 }
-
-#cke_notifications_area_igsa,
-.cke_notifications_area {
-  display: none !important;
-}
-
-.gjs-one-bg {
-  background-color: #0d17d449 !important; /* Thay đổi màu nền */
-}
-.gjs-two-color {
-  color: #fff !important; /* Thay đổi màu chữ */
-}
-
-.gjs-pn-panel.gjs-pn-commands.gjs-one-bg.gjs-two-color {
-  padding: 0;
-}

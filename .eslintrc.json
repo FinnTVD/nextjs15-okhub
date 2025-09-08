@@ -1,22 +1,22 @@
 {
   "extends": ["next/core-web-vitals", "next/typescript"],
   "rules": {
-    "react/no-unescaped-entities": "off",
+    "react/no-unescaped-entities": "error",
     "@next/next/no-html-link-for-pages": "error",
     "@next/next/no-img-element": "error",
-    "no-lonely-if": "warn",
-    "no-unused-vars": "warn",
-    "no-trailing-spaces": "warn",
-    "no-multi-spaces": "warn",
-    "no-multiple-empty-lines": "warn",
+    "no-lonely-if": "error",
+    "no-unused-vars": "error",
+    "no-trailing-spaces": "error",
+    "no-multi-spaces": "error",
+    "no-multiple-empty-lines": "error",
     "space-before-blocks": ["error", "always"],
     "semi": [1, "never"],
-    "linebreak-style": "off",
-    "quotes": ["warn", "single"],
-    "array-bracket-spacing": "warn",
-    "no-unexpected-multiline": "warn",
-    "keyword-spacing": "warn",
-    "comma-spacing": "warn",
-		"@typescript-eslint/no-explicit-any": "off"
+    "linebreak-style": "error",
+    "quotes": ["error", "single"],
+    "array-bracket-spacing": "error",
+    "no-unexpected-multiline": "error",
+    "keyword-spacing": "error",
+    "comma-spacing": "error",
+    "@typescript-eslint/no-explicit-any": "error"
   }
 }

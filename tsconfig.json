@@ -1,43 +1,58 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
+    // Target and module settings
+    "target": "ES2022",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "bundler",
+
+    // JavaScript support
+    "allowJs": true,
+    "checkJs": false,
+
+    // Type checking
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+
+    // Module resolution
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
+
+    // JSX
     "jsx": "preserve",
+
+    // Performance
     "incremental": true,
+    "tsBuildInfoFile": ".next/cache/tsconfig.tsbuildinfo",
+
+    // Next.js plugin
     "plugins": [
       {
         "name": "next"
       }
     ],
+
+    // Path mapping
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-     "grapesjs": ["/src/modules/grapesjs"],
-      "grapesjs-preset-webpage": ["/src/modules/grapesjs-preset-webpage"],
-      "grapesjs-blocks-basic": ["/src/modules/grapesjs-blocks-basic"],
-      "grapesjs-plugin-forms": ["/src/modules/grapesjs-plugin-forms"],
-      "grapesjs-plugin-export": ["/src/modules/grapesjs-plugin-export"],
-      "grapesjs-component-countdown": ["/src/modules/grapesjs-component-countdown"],
-      "grapesjs-navbar": ["/src/modules/grapesjs-navbar"],
-      "grapesjs-style-bg": ["/src/modules/grapesjs-style-bg"],
-      "grapesjs-tabs": ["/src/modules/grapesjs-tabs"],
-      "grapesjs-tooltip": ["/src/modules/grapesjs-tooltip"],
-      "grapesjs-custom-code": ["/src/modules/grapesjs-custom-code"],
-      "grapesjs-touch": ["/src/modules/grapesjs-touch"],
-      "grapesjs-parser-postcss": ["/src/modules/grapesjs-parser-postcss"],
-      "grapesjs-plugin-ckeditor": ["/src/modules/grapesjs-plugin-ckeditor"],
-            "grapesjs-templates": ["/src/modules/grapesjs-templates"],
+      "@/components/*": ["./src/components/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/utils/*": ["./src/utils/*"],
+      "@/types/*": ["./src/types/*"],
+      "@/constants/*": ["./src/constants/*"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/fetches/*": ["./src/fetches/*"],
+      "@/actions/*": ["./src/actions/*"],
+      "@/schemas/*": ["./src/schemas/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", ".next", "out", "dist", "build"]
 }

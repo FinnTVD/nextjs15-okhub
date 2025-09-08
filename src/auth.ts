@@ -1,16 +1,24 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import fetchData from "@/fetches/fetchData"
+import { jwtDecode } from 'jwt-decode'
+import NextAuth, { CredentialsSignin } from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
-import NextAuth from "next-auth"
-// import { jwtDecode } from 'jwt-decode'
 
+import ENDPOINTS from '@/constants/endpoints'
+import fetchData from '@/fetches/fetchData'
+import fetchDataAuth from '@/fetches/fetchDataAuth'
 
 // NOTE: define theo responsive login của api, nên bắt BE quy chuẩn đúng với JWT
 declare module 'next-auth' {
   interface User {
     accessToken?: string
     refreshToken?: string
+    // Custom more field
+  }
+
+  interface Session {
+    accessToken?: string
+    refreshToken?: string
+    // Custom more field
   }
 }
 
@@ -23,12 +31,12 @@ async function refreshAccessToken(token: any) {
     // NOTE: Call api refresh token, thay endpoint vào đây và sửa lại theo responsive trả về và token truyền vào
     const res = await fetchData({
       method: 'POST',
-      api: '/refresh-token',
+      api: ENDPOINTS.auth.refreshToken,
       option: {
         body: JSON.stringify({
           refreshToken: token?.refreshToken,
         }),
-      }
+      },
     })
     return {
       ...token,
@@ -36,6 +44,7 @@ async function refreshAccessToken(token: any) {
       refreshToken: res.refreshToken,
     }
   } catch (error) {
+    console.error('Error refreshing access token:', error)
     return {
       ...token,
       error: 'RefreshAccessTokenError',
@@ -45,21 +54,61 @@ async function refreshAccessToken(token: any) {
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   callbacks: {
-    async jwt({ token, user, account }) {
+    async jwt({ token, user, account, trigger, session }) {
       // NOTE: Nếu data trả về chưa có token.exp thì sử dụng
-      // if (token?.accessToken) {
-      //   const decodedToken = jwtDecode(token.accessToken as string)
-      //   token.exp = Number(decodedToken?.exp) * 1000
-      // }
+      if (token?.accessToken) {
+        const decodedToken = jwtDecode(token.accessToken as string)
+        token.accessExp = decodedToken.exp ? decodedToken.exp * 1000 : 0
+      }
       if (account && user) {
-        return {
-          ...token,
-          ...user,
-          accessToken: user.accessToken,
-          refreshToken: user.refreshToken,
+        if (account.provider === 'google') {
+          const res = await fetchData({
+            api: '/google-login',
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            option: {
+              body: JSON.stringify({
+                provider: 'google',
+                googleId: account.providerAccountId,
+                name: user.name,
+                email: user.email,
+              }),
+            },
+          })
+          return {
+            user: { ...res?.data },
+            accessToken: res?.token?.accessToken,
+            refreshToken: res?.token?.refreshToken,
+          }
+        }
+        if (account.provider === 'credentials') {
+          return {
+            ...token,
+            ...user,
+            accessToken: user.accessToken,
+            refreshToken: user.refreshToken,
+          }
         }
       }
-      if (token?.exp && Date.now() < token.exp * 1000 - 30000) {
+      if (trigger === 'update') {
+        if (session?._action === 'updateInfo') {
+          const res = await fetchDataAuth({
+            api: ENDPOINTS.auth.info,
+          })
+          return {
+            ...token,
+            user: {
+              ...res?.data,
+            },
+          }
+        }
+        if (session?._action === 'refreshToken') {
+          return refreshAccessToken(token)
+        }
+      }
+      if (Date.now() < (token?.accessExp as number)) {
         return token
       }
       // Thực hiện refresh token khi exp < 30s
@@ -78,6 +127,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   },
   session: {
     strategy: 'jwt',
+    // maxAge: 24 * 60 * 60 // 24 hours
   },
   providers: [
     Credentials({
@@ -93,7 +143,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           }
           // NOTE: Thực hiện call api login, thay endpoint và payload vào đây
           const request = {
-            api: '/login',
+            api: ENDPOINTS.auth.login,
             option: {
               body: JSON.stringify({
                 email: credentials?.email,
@@ -109,9 +159,14 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
             }
             return user
           }
+          if (res?.message?.includes('xác thực email')) {
+            throw new CredentialsSignin('email_not_verified', {
+              cause: { code: 'email_not_verified' },
+            })
+          }
           throw new Error(res?.message)
         } catch (error) {
-          throw new Error('test')
+          throw new Error('Invalid credentials', { cause: error })
         }
       },
     }),
@@ -119,21 +174,25 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   secret: 'OKHUB_SECRET', // NOTE: đưa biến này ra .env, sử dụng env.AUTH_SECRET
 })
 
-// NOTE: GET SESSION PHÍA SERVER
+// NOTE: GET SESSION on SERVER
 // import { auth } from "@/auth"
 // export default async function Page() {
 //   const session = await auth()
 //   return ...
 // }
 
-// NOTE: GET SESSION PHÍA CLIENT, cần wraper bằng SessionProvider
+// NOTE: GET SESSION on CLIENT, cần wrapper bằng SessionProvider
 // 'use client';
 // import { useSession, SessionProvider } from 'next-auth/react';
 // const ClientComponent = () => {
 //   const session = useSession();
 //   return (
 //     <SessionProvider>
-//     <p>Welcome { session?.user?.name } </p>
+//     <html>
+//       <body>
+//         {children}
+//       </body>
+//     </html>
 //       </SessionProvider>
 //   )
 // }
@@ -142,24 +201,39 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 // "use client";
 
 // import { loginForm } from "@/actions/loginForm";
-// function handleSignIn() {
-//   loginForm({
-//     username: "admin_okhub",
-//     password: "pad123!@#",
-//     redirectTo:'/',
-//   });
+
+// const [pending, startTransition] = useTransition()
+// const { update } = useSession()
+// const router = useRouter()
+
+// function onSubmit(values: z.infer<typeof signInSchema>) {
+// if (pending) return
+//   startTransition(async () => {
+//     try {
+//       const res = await loginForm(values)
+//       if (res?.ok) {
+//         await update()
+//         router.replace(ROUTES.home)
+//         return
+//       } else {
+//         // NOTE: handle case login failed
+//       }
+//     } catch (error) {
+//     }
+//   })
 // }
 
 // NOTE: LOGOUT FORM CLIENT
 // "use client";
 
-// import { loginForm } from "@/actions/loginForm";
-// function handleSignOut() {
-//   logoutForm()
-//     .then(() => {
-//       // handle when signout
-//     })
-//     .catch((error) => {
-//       throw new Error(error)
-//     });
+// import { signOut } from 'next-auth/react'
+
+// const handleLogout = async () => {
+//   await signOut({
+//     redirectTo: ROUTES.home,
+//     redirect: true,
+//   })
 // }
+
+// NOTE UPDATE INFO REQUIRED USER UPDATE INFO API
+// await update({ _action: 'updateInfo' })
