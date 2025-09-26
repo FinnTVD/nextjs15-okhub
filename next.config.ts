@@ -9,7 +9,7 @@ const withBundleAnalyzer = bundleAnalyzer({
 const nextConfig: NextConfig = {
   // Image optimization
   images: {
-    formats: ['image/webp', 'image/avif'],
+    formats: ['image/webp'],
     minimumCacheTTL: 2678400, // 31 days
     remotePatterns: [
       { protocol: 'https', hostname: '**' },

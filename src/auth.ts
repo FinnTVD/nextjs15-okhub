@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { jwtDecode } from 'jwt-decode'
-import NextAuth, { CredentialsSignin } from 'next-auth'
+import NextAuth, { AuthError, CredentialsSignin } from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 
 import ENDPOINTS from '@/constants/endpoints'
 import fetchData from '@/fetches/fetchData'
 import fetchDataAuth from '@/fetches/fetchDataAuth'
+import authService from '@/services/auth'
+import { LoginAccountValues } from '@/services/auth/LoginAccount'
 
 // NOTE: define theo responsive login của api, nên bắt BE quy chuẩn đúng với JWT
 declare module 'next-auth' {
@@ -141,32 +143,20 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           if (!isValidCredentials(credentials)) {
             throw new Error('Invalid credentials')
           }
-          // NOTE: Thực hiện call api login, thay endpoint và payload vào đây
-          const request = {
-            api: ENDPOINTS.auth.login,
-            option: {
-              body: JSON.stringify({
-                email: credentials?.email,
-                password: credentials?.password,
-              }),
-            },
-          }
-          const res = await fetchData(request)
-          if (res?.accessToken) {
-            const user = {
-              accessToken: res.accessToken,
-              refreshToken: res.refreshToken,
-            }
-            return user
-          }
-          if (res?.message?.includes('xác thực email')) {
-            throw new CredentialsSignin('email_not_verified', {
-              cause: { code: 'email_not_verified' },
+          const res = await authService.LoginAccount(credentials as LoginAccountValues)
+          if (res?.code === 200) {
+            return res?.data
+          } else {
+            throw new CredentialsSignin('CredentialsSignin', {
+              cause: { code: res?.code, message: res?.message },
             })
           }
-          throw new Error(res?.message)
         } catch (error) {
-          throw new Error('Invalid credentials', { cause: error })
+          if (error instanceof AuthError) throw error
+
+          throw new AuthError('CredentialsSignin', {
+            cause: { code: '500', message: (error as Error).message || 'Unexpected error' },
+          })
         }
       },
     }),
