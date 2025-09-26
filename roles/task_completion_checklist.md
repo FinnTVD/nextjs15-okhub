@@ -1,44 +1,43 @@
 # Task Completion Checklist
 
-## Trước khi hoàn thành task
+## Before Starting Development
+- [ ] Run `npm install` `npm install --legacy-peer-deps` or  to install dependencies
+- [ ] Check if development server runs with `npm run dev`
+- [ ] Verify TypeScript compilation with `npm run build`
 
-1. **Code Quality**
-   - [ ] Chạy `npm run lint` để kiểm tra lỗi ESLint
-   - [ ] Kiểm tra TypeScript errors
-   - [ ] Đảm bảo code tuân theo conventions đã định
+## During Development
+- [ ] Follow TypeScript strict mode guidelines
+- [ ] Use proper import order (external → internal)
+- [ ] Write meaningful variable/function names
+- [ ] Add English comments for complex logic
+- [ ] Use path aliases (@/*) for clean imports
+- [ ] Follow component organization structure
 
-2. **Testing**
-   - [ ] Test functionality trong development mode
-   - [ ] Kiểm tra responsive design
-   - [ ] Test với cả 2 ngôn ngữ (vi/en)
+## Before Committing
+- [ ] Run `npm run lint:fix` to fix ESLint issues
+- [ ] Run `npm run format` to format code
+- [ ] Run `npm run build` to ensure build passes
+- [ ] Test functionality in development mode
+- [ ] Remove any console.log statements (unless specifically requested)
 
-3. **Build Verification**
-   - [ ] Chạy `npm run build` để đảm bảo build thành công
-   - [ ] Kiểm tra bundle size nếu cần: `ANALYZE=true npm run build`
+## Code Quality Checks
+- [ ] No TypeScript errors
+- [ ] ESLint passes without warnings
+- [ ] Prettier formatting applied
+- [ ] Components follow naming conventions
+- [ ] Proper error handling implemented
+- [ ] Responsive design considerations
 
-4. **Code Review**
-   - [ ] Kiểm tra naming conventions
-   - [ ] Đảm bảo không có console.log không cần thiết
-   - [ ] Verify import paths sử dụng `@/`
-   - [ ] Kiểm tra error handling
+## Performance Considerations
+- [ ] Images optimized (WebP/AVIF formats)
+- [ ] Bundle size reasonable (use ANALYZE=true npm run build)
+- [ ] No unnecessary re-renders
+- [ ] Proper use of React hooks
+- [ ] Efficient data fetching patterns
 
-5. **Documentation**
-   - [ ] Cập nhật comments nếu cần
-   - [ ] Đảm bảo code self-documenting
-   - [ ] Update README nếu có thay đổi lớn
-
-## Git Workflow
-
-1. **Before Commit**
-   - [ ] `git status` để xem changes
-   - [ ] `git add .` để stage changes
-   - [ ] Review staged changes với `git diff --cached`
-
-2. **Commit Message**
-   - [ ] Sử dụng conventional commits
-   - [ ] Message rõ ràng, mô tả thay đổi
-   - [ ] Ví dụ: `feat: add user authentication`, `fix: resolve responsive issue`
-
-3. **After Commit**
-   - [ ] `git push origin main` để push changes
-   - [ ] Verify trên remote repository
+## Security Checklist
+- [ ] No sensitive data in client-side code
+- [ ] Proper authentication handling
+- [ ] Input validation with Zod schemas
+- [ ] Security headers configured
+- [ ] No console.log in production builds

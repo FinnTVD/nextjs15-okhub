@@ -50,7 +50,13 @@
       "@/hooks/*": ["./src/hooks/*"],
       "@/fetches/*": ["./src/fetches/*"],
       "@/actions/*": ["./src/actions/*"],
-      "@/schemas/*": ["./src/schemas/*"]
+      "@/schemas/*": ["./src/schemas/*"],
+      "@/provider/*": ["./src/provider/*"],
+      "@/i18n/*": ["./src/i18n/*"],
+      "@/styles/*": ["./src/styles/*"],
+      "@/animations/*": ["./src/animations/*"],
+      "@/jsons/*": ["./src/jsons/*"],
+      "@/layouts/*": ["./src/layouts/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

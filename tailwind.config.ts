@@ -18,6 +18,12 @@ const config: Config = {
         max: '1024px',
       },
     },
+    extend: {
+      fontFamily: {},
+      colors: {},
+      backgroundImage: {},
+      boxShadow: {},
+    },
   },
   plugins: [
     plugin(function ({ addUtilities }) {

@@ -1,43 +1,35 @@
-# Project Overview - nextjs15-okhub
+# Project Overview - NextJS15 OKHub
 
-## Mục đích dự án
-
-Dự án Next.js 15 với tên "okhub" - một ứng dụng web hiện đại hỗ trợ đa ngôn ngữ (Vietnamese/English) với các tính năng:
-
-- Authentication với NextAuth.js
-- Internationalization (i18n) với next-intl
-- UI components với Radix UI và Tailwind CSS
-- Animation với GSAP và Lenis
-- Form handling với React Hook Form và Zod validation
-- State management với Zustand
-- Data fetching với SWR
+## Project Purpose
+This is a modern Next.js 15 application built with TypeScript, featuring:
+- Multi-language support (Vietnamese/English) using next-intl
+- Authentication system with NextAuth.js
+- Modern UI components with Radix UI and Tailwind CSS
+- Performance optimizations with Turbopack
+- SEO optimization with RankMath integration
+- Smooth animations with GSAP and Lenis
 
 ## Tech Stack
-
-- **Framework**: Next.js 15.5.2 với Turbopack
+- **Framework**: Next.js 15.5.2 with App Router
 - **Language**: TypeScript 5
-- **Styling**: Tailwind CSS 4 với custom utilities
+- **Styling**: Tailwind CSS 4 with custom utilities
 - **UI Components**: Radix UI primitives
 - **Authentication**: NextAuth.js v5 (beta)
 - **Internationalization**: next-intl
-- **Animation**: GSAP, Lenis smooth scroll
-- **Forms**: React Hook Form + Zod validation
 - **State Management**: Zustand
 - **Data Fetching**: SWR
+- **Animations**: GSAP, Lenis smooth scrolling
+- **Forms**: React Hook Form with Zod validation
 - **Icons**: Lucide React
 - **Notifications**: Sonner
-- **Fonts**: Geist Sans, Geist Mono
+- **Build Tool**: Turbopack (experimental)
 
-## Cấu trúc thư mục chính
-
-- `src/app/[locale]/` - App router với internationalization
-- `src/components/` - Reusable UI components
-- `src/actions/` - Server actions
-- `src/fetches/` - API fetching utilities
-- `src/hooks/` - Custom React hooks
-- `src/i18n/` - Internationalization config
-- `src/layouts/` - Layout components
-- `src/provider/` - Context providers
-- `src/schemas/` - Zod validation schemas
-- `src/utils/` - Utility functions
-- `src/constants/` - Constants và ENDPOINTS
+## Key Features
+- Multi-language support (vi/en)
+- JWT-based authentication with refresh tokens
+- Responsive design with custom breakpoints
+- Image optimization with WebP/AVIF formats
+- Security headers configuration
+- Bundle analysis support
+- View transitions
+- Top loader with custom styling

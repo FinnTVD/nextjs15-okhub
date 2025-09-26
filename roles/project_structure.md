@@ -1,57 +1,51 @@
 # Project Structure
 
-## App Router Structure
-
+## Root Directory
 ```
-src/app/
-├── [locale]/                 # Internationalized routes
-│   ├── layout.tsx           # Root layout với providers
-│   ├── page.tsx             # Home page
-│   └── components/          # Page-specific components
-├── api/                     # API routes
-│   └── auth/[...next-auth]/ # NextAuth API
-└── (sitemap)/               # Sitemap generation
-```
-
-## Component Architecture
-
-```
-src/components/
-├── ui/                      # Base UI components (Radix UI)
-├── shared/                  # Reusable shared components
-├── image/                   # Image-related components
-└── layouts/                 # Layout components
-    ├── header/              # Header layout
-    └── footer/              # Footer layout
+nextjs15-okhub/
+├── src/                    # Source code
+├── public/                 # Static assets
+├── messages/               # i18n translations
+├── package.json            # Dependencies and scripts
+├── next.config.ts          # Next.js configuration
+├── tailwind.config.ts       # Tailwind CSS configuration
+├── tsconfig.json           # TypeScript configuration
+├── eslint.config.mjs       # ESLint configuration
+└── components.json         # shadcn/ui configuration
 ```
 
-## Data Layer
-
+## Source Structure (`/src`)
 ```
 src/
-├── actions/                 # Server actions
-├── fetches/                 # API fetching utilities
-├── hooks/                   # Custom React hooks
-├── schemas/                 # Zod validation schemas
-└── constants/               # App constants
-    ├── ENDPOINTS.ts         # API ENDPOINTS
-    └── routes.ts            # Route definitions
+├── app/                    # Next.js App Router
+│   ├── [locale]/          # Internationalized routes
+│   ├── api/               # API routes
+│   └── (store)/           # Route groups
+├── components/            # React components
+│   ├── ui/                # shadcn/ui components
+│   ├── shared/            # Shared components
+│   ├── icons/             # Custom icons
+│   └── image/             # Image components
+├── layouts/               # Layout components
+├── hooks/                 # Custom React hooks
+├── lib/                   # Utility libraries
+├── utils/                 # Helper functions
+├── constants/             # App constants
+├── types/                 # TypeScript type definitions
+├── schemas/               # Zod validation schemas
+├── fetches/               # API fetch functions
+├── actions/               # Server actions
+├── provider/              # Context providers
+├── i18n/                  # Internationalization
+├── animations/            # Animation components
+├── styles/                # Global styles
+└── jsons/                 # JSON data files
 ```
 
-## Configuration Files
-
-- `next.config.ts` - Next.js configuration
-- `tailwind.config.ts` - Tailwind CSS config
-- `eslint.config.mjs` - ESLint configuration
-- `tsconfig.json` - TypeScript configuration
-- `middleware.ts` - Next.js middleware cho i18n
-
-## Key Features
-
-- **Internationalization**: next-intl với Vietnamese/English
-- **Authentication**: NextAuth.js với JWT tokens
-- **Styling**: Tailwind CSS với custom utilities
-- **Animation**: GSAP + Lenis smooth scroll
-- **Forms**: React Hook Form + Zod validation
-- **State**: Zustand cho client state
-- **Data**: SWR cho server state
+## Key Configuration Files
+- `next.config.ts`: Next.js configuration with Turbopack, image optimization, security headers
+- `tailwind.config.ts`: Custom breakpoints and utility classes
+- `tsconfig.json`: Path mapping and strict TypeScript settings
+- `eslint.config.mjs`: Comprehensive linting rules
+- `src/i18n/routing.ts`: Internationalization routing configuration
+- `src/auth.ts`: NextAuth.js configuration with JWT handling
